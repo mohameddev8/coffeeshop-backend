@@ -1,7 +1,7 @@
 import { type Request, type Response, type NextFunction } from "express";
 import { createCategory, updateCategory, deleteCategory, getAllCategories } from "./categories.service.js";
 import { categoriesValidator, updateCategoryValidator } from "./categories.validator.js";
-import {AppError} from "../../middlewares/errorHandler.ts";
+import {AppError} from "../../middlewares/errorHandler.js";
 
 export async function getAll(req: Request, res: Response, next: NextFunction): Promise<void>{
     try {
@@ -31,8 +31,8 @@ export async function create(req: Request, res: Response, next: NextFunction): P
 
 export async function update(req: Request, res: Response, next: NextFunction): Promise<void>{
     try {
-        const id = parseInt(req.params.id as string ?? "");
-        if(isNaN(id)){
+        const id = parseInt(req.params.id, 10);
+        if(isNaN(id) || id <= 0){
             throw new AppError("Invalid category id", 400);
         }
         const data = await updateCategoryValidator.validate(req.body);
@@ -48,8 +48,8 @@ export async function update(req: Request, res: Response, next: NextFunction): P
 
 export async function deleteCat(req: Request, res: Response, next: NextFunction): Promise<void>{
     try{
-        const id = parseInt(req.params.id as string ?? "");
-        if(isNaN(id)){
+        const id = parseInt(req.params.id, 10);
+        if(isNaN(id) || id <= 0){
             throw new AppError("Invalid category id", 400);
         }
         await deleteCategory(id);
