@@ -46,7 +46,12 @@ export async function registerUser(
     if (!user) {
         throw new AppError("Something went wrong during registration", 500);
     }
-    const token = generateToken({userId: user.id, role: user.role});
+    const token = generateToken({
+        userId: user.id,
+        role: user.role,
+        name: user.name,
+        email: user.email,
+    });
 
     return {user: sanitize(user), token};
 }
@@ -71,7 +76,12 @@ export async function loginUser(
         throw new AppError("Invalid email or password", 401);
     }
 
-    const token = generateToken({ userId: user.id, role: user.role });
+    const token = generateToken({
+        userId: user.id,
+        role: user.role,
+        name: user.name,
+        email: user.email,
+    });
 
     return { user: sanitize(user), token };
 }
