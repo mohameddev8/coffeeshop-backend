@@ -17,9 +17,9 @@ export async function allUsers(req: Request, res: Response, next: NextFunction):
 
 export async function getUser(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-        const id = parseInt(req.params.id as string ?? "");
-        if (isNaN(id)) {
-            throw new AppError("Invalid category id", 400);
+        const id = parseInt(req.params.id, 10);
+        if (isNaN(id) || id <= 0) {
+          throw new AppError("Invalid id", 400);
         }
         const user = await getUserById(id);
         res.status(200).json({
