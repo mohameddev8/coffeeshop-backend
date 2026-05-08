@@ -8,5 +8,5 @@ export const menuRouter = Router();
 menuRouter.get("/", getMenu);
 menuRouter.get("/:id", getItem);
 menuRouter.post("/", authenticate, authorize("admin"), createMenu);
-menuRouter.put("/;id", authenticate, authorize("admin"), updateMenu);
-menuRouter.delete("/;id", authenticate, authorize("admin"), deleteMenu);
+menuRouter.put("/:id", authenticate, authorize("admin"), updateMenu);
+menuRouter.delete("/:id", authenticate, authorize("admin"), deleteMenu);
