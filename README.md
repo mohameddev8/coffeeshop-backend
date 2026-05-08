@@ -335,7 +335,7 @@ Admin only.
 
 ### Update menu item
 
-`PUT /api/v1/menu/;id`
+`PUT /api/v1/menu/:id`
 
 Admin only.
 
@@ -345,7 +345,7 @@ Admin only.
 
 ### Delete menu item
 
-`DELETE /api/v1/menu/;id`
+`DELETE /api/v1/menu/:id`
 
 Admin only.
 
