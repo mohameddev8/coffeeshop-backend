@@ -12,6 +12,8 @@ export interface LoginInput {
 export interface UserPayload {
     id: string;
     role: "customer" | "admin";
+    name: string;
+    email: string;
 }
 
 export interface JwtPayload {
