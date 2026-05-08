@@ -19,6 +19,8 @@ export interface UserPayload {
 export interface JwtPayload {
     userId: string;
     role: "customer" | "admin";
+    name: string;
+    email: string;
 }
 
 export interface UserRow {
