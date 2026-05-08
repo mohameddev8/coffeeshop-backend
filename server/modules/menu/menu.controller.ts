@@ -30,9 +30,9 @@ export async function createMenu(req: Request, res: Response, next: NextFunction
 
 export async function updateMenu(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-        const id = parseInt(req.params.id as string ?? "");
-        if (isNaN(id)) {
-            throw new AppError("Invalid category id", 400);
+        const id = parseInt(req.params.id, 10);
+        if (isNaN(id) || id <= 0) {
+          throw new AppError("Invalid id", 400);
         }
         const data = await updateMenuValidator.validate(req.body);
         const updatedMenu = await updateMenuItem(id, data);
@@ -47,9 +47,9 @@ export async function updateMenu(req: Request, res: Response, next: NextFunction
 
 export async function getItem(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-        const id = parseInt(req.params.id as string ?? "");
-        if (isNaN(id)) {
-            throw new AppError("Invalid category id", 400);
+        const id = parseInt(req.params.id, 10);
+        if (isNaN(id) || id <= 0) {
+          throw new AppError("Invalid id", 400);
         }
         const item = await getMenuItem(id);
         res.status(200).json({
