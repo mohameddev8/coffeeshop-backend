@@ -21,9 +21,11 @@ export function authenticate(req: Request, res: Response, next: NextFunction): v
         const decoded = jwt.verify(token, env.JWT_SECRET) as JwtPayload;
 
         req.user = {
-            id: decoded.userId,
-            role: decoded.role,
-        } as UserPayload;
+              id: decoded.userId,
+              role: decoded.role,
+              name: decoded.name,
+              email: decoded.email,
+        };
 
         next();
     } catch (error) {
