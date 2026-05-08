@@ -16,7 +16,8 @@ It includes authentication, role-based access control, menu and category managem
 
 ## Tech Stack
 
-- **Runtime:** Node.js / Bun-compatible scripts
+- **Runtime:** Node.js
+- **Package Manager:** Bun
 - **Language:** TypeScript
 - **Framework:** Express 5
 - **Database:** PostgreSQL
