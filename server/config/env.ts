@@ -12,6 +12,7 @@ export const env = {
     // Settings
     NODE_ENV: process.env.NODE_ENV ?? "development",
     PORT: parseInt(process.env.PORT ?? "3000", 10),
+    CORS_ORIGIN: process.env.CORS_ORIGIN ?? "http://localhost:3000",
     // Database Config
     DB_HOST: requireEnv("DB_HOST"),
     DB_PORT: parseInt(process.env.DB_PORT ?? "5432", 10),
