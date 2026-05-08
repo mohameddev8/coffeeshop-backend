@@ -1,24 +1,34 @@
 import express, {type Application} from "express";
 import path from "path";
 import {fileURLToPath} from "url";
+import helmet from "helmet";
+import cors from "cors";
+import { env } from "./config/env.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 // Middlewares
-import {requestLogger} from "./middlewares/requestLogger";
-import {errorHandler} from "./middlewares/errorHandler";
-import {notFoundHandler} from "./middlewares/notFoundHandler";
+import {requestLogger} from "./middlewares/requestLogger.js";
+import {errorHandler} from "./middlewares/errorHandler.js";
+import {notFoundHandler} from "./middlewares/notFoundHandler.js";
 
 // Routers
 import {authRouter} from "./modules/auth/auth.routes.js";
-import {categoryRouter} from "./modules/categories/categories.routes.ts";
-import {menuRouter} from "./modules/menu/menu.routes.ts";
-import {usersRouter} from "./modules/users/users.routes.ts";
-import {ordersRouter} from "./modules/orders/orders.routes.ts";
+import {categoryRouter} from "./modules/categories/categories.routes.js";
+import {menuRouter} from "./modules/menu/menu.routes.js";
+import {usersRouter} from "./modules/users/users.routes.js";
+import {ordersRouter} from "./modules/orders/orders.routes.js";
 
 
 export function createApp(): Application {
     const app = express();
+
+    // Security Middleware
+    app.use(helmet());
+    app.use(cors({
+        origin: env.CORS_ORIGIN || "http://localhost:3000",
+        credentials: true
+    }));
 
     // Parsing
     app.use(express.json({limit: "10kb"}));
@@ -30,7 +40,7 @@ export function createApp(): Application {
 
     // Api routes
     app.use("/api/v1/auth", authRouter);
-    app.use("/api/v1/categories", categoryRouter)
+    app.use("/api/v1/categories", categoryRouter);
     app.use("/api/v1/users", usersRouter);
     app.use("/api/v1/menu", menuRouter);
     app.use("/api/v1/orders", ordersRouter);
