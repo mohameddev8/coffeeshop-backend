@@ -1,6 +1,7 @@
-import type { Request, Response } from "express";
-import { AppError } from "./errorHandler.js";
+import type {Request, Response, NextFunction} from "express";
 
-export function notFoundHandler(req: Request, res: Response): void {
+import {AppError} from "./errorHandler.js";
+
+export function notFoundHandler(req: Request, res: Response, next: NextFunction): void {
     next(new AppError(`Cannot find ${req.originalUrl} on this server!`, 404));
 }
