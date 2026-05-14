@@ -1,10 +1,11 @@
 # Bun & Brew — Backend API
 
-![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
-![Express](https://img.shields.io/badge/Express-5-000000?logo=express&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-yellow)
+![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Express](https://img.shields.io/badge/Express-5-000000?style=for-the-badge&logo=express&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-18.3-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+![Bun](https://img.shields.io/badge/Bun-1.x-000000?style=for-the-badge&logo=bun&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-F7DF1E?style=for-the-badge&logoColor=black)
 
 A production-style REST API for a coffee shop and bakery ordering system.  
 Built with Node.js, TypeScript, Express 5, and PostgreSQL.
@@ -35,7 +36,7 @@ Built with Node.js, TypeScript, Express 5, and PostgreSQL.
 | Runtime | Node.js 18+ |
 | Language | TypeScript 5 |
 | Framework | Express 5 |
-| Database | PostgreSQL |
+| Database | PostgreSQL 18.3 |
 | Validation | VineJS |
 | Auth | JWT + bcrypt |
 | Security | Helmet, CORS |
