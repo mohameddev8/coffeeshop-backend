@@ -1,76 +1,97 @@
-# CoffeeShop Backend API
+# Bun & Brew — Backend API
 
-A Node.js + TypeScript + Express backend for a coffee shop and bakery ordering system.  
-It includes authentication, role-based access control, menu and category management, and customer order placement.
+![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
+![Express](https://img.shields.io/badge/Express-5-000000?logo=express&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
+A production-style REST API for a coffee shop and bakery ordering system.  
+Built with Node.js, TypeScript, Express 5, and PostgreSQL.
+
+## 🔗 Live API
+
+> `https://your-deployed-url.com/api/v1`  
+> *(replace with your deployed URL)*
+
+---
 
 ## Features
 
-- JWT authentication with hashed passwords
-- Role-based authorization for `customer` and `admin`
-- Categories CRUD
-- Menu items CRUD
+- JWT authentication with bcrypt password hashing
+- Role-based authorization (`customer` / `admin`)
+- Full CRUD for categories and menu items
 - Order placement with transactional writes
-- Order status management
-- PostgreSQL integration
-- Basic request logging, security headers, and CORS
+- Order status lifecycle management
+- Input validation via VineJS
+- Security headers (Helmet), CORS, and request logging
+
+---
 
 ## Tech Stack
 
-- **Runtime:** Node.js
-- **Package Manager:** Bun
-- **Language:** TypeScript
-- **Framework:** Express 5
-- **Database:** PostgreSQL
-- **Validation:** VineJS
-- **Auth:** JWT + bcrypt
-- **Security:** helmet, cors
+| Layer | Technology |
+|---|---|
+| Runtime | Node.js 18+ |
+| Language | TypeScript 5 |
+| Framework | Express 5 |
+| Database | PostgreSQL |
+| Validation | VineJS |
+| Auth | JWT + bcrypt |
+| Security | Helmet, CORS |
+| Package Manager | Bun |
+
+---
 
 ## Project Structure
 
-```txt
+```
 server/
-├── config/           # database and environment setup
+├── config/               # Database and environment setup
 ├── database/
-│   └── migrations/   # SQL schema files
-├── middlewares/      # auth, role, logger, error handling
+│   └── migrations/       # SQL schema files
+├── middlewares/          # Auth, role, logger, error handling
 ├── modules/
 │   ├── auth/
 │   ├── categories/
 │   ├── menu/
 │   ├── orders/
 │   └── users/
-└── types/            # Express type augmentation
+└── types/                # Express type augmentation
 ```
 
-## Requirements
+---
 
-- Node.js 18+ recommended
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+
 - PostgreSQL
-- Bun is optional, but the project also works with Node.js tooling
+- Bun *(optional — npm works too)*
 
-## Installation
+### 1. Clone the repository
 
-### 1) Install dependencies
+```bash
+git clone https://github.com/mohamedkernel/bun-brew-backend.git
+cd bun-brew-backend
+```
 
-Using Bun:
+### 2. Install dependencies
+
 ```bash
 bun install
-```
-
-Using npm:
-```bash
+# or
 npm install
 ```
 
-### 2) Create your environment file
-
-Copy `.env.example` to `.env` and fill in the values:
+### 3. Configure environment
 
 ```bash
 cp .env.example .env
 ```
 
-Example:
+Fill in your `.env`:
 
 ```env
 NODE_ENV=development
@@ -83,69 +104,47 @@ DB_USER=postgres
 DB_PASSWORD=your_password
 DB_NAME=coffeeshop_db
 
-JWT_SECRET=super_secret_key
+JWT_SECRET=your_secret_key
 JWT_EXPIRES_IN=7d
 ```
 
-## Database Setup
+### 4. Run database migrations
 
-Run the SQL migration files in this order:
-
-1. `server/database/migrations/001_create_users.sql`
-2. `server/database/migrations/002_create_categories.sql`
-3. `server/database/migrations/003_create_menu_items.sql`
-4. `server/database/migrations/004_create_orders.sql`
-
-The schema creates:
-
-- `users`
-- `categories`
-- `menu_items`
-- `orders`
-- `order_items`
-
-## Running the Project
-
-### Development
+Execute the SQL files in order:
 
 ```bash
+psql -U postgres -d coffeeshop_db -f server/database/migrations/001_create_users.sql
+psql -U postgres -d coffeeshop_db -f server/database/migrations/002_create_categories.sql
+psql -U postgres -d coffeeshop_db -f server/database/migrations/003_create_menu_items.sql
+psql -U postgres -d coffeeshop_db -f server/database/migrations/004_create_orders.sql
+```
+
+This creates the following tables: `users`, `categories`, `menu_items`, `orders`, `order_items`.
+
+### 5. Start the server
+
+```bash
+# Development
 bun run dev
-```
 
-or
-
-```bash
-npm run dev
-```
-
-### Production build
-
-```bash
+# Production build
 bun run build
-```
-
-Then run the compiled app:
-
-```bash
 bun run start
 ```
 
-or
+---
 
-```bash
-node dist/server.js
+## API Reference
+
+### Base URL
+
 ```
-
-## Base URL
-
-```txt
 /api/v1
 ```
 
-## API Conventions
+### Response Format
 
-### Standard success response
-
+**Success**
 ```json
 {
   "status": "success",
@@ -153,8 +152,7 @@ node dist/server.js
 }
 ```
 
-### Standard error response
-
+**Error**
 ```json
 {
   "status": "error",
@@ -164,370 +162,143 @@ node dist/server.js
 
 ### Authentication
 
-Protected routes require a Bearer token:
+Protected routes require a Bearer token in the `Authorization` header:
 
 ```http
-Authorization: Bearer <token>
+Authorization: Bearer <your_token>
 ```
 
 ### Roles
 
-- `customer`: can place orders and view own orders
-- `admin`: can manage categories, menu items, users, and orders
+| Role | Permissions |
+|---|---|
+| `customer` | Register, login, view menu, place orders, view own orders |
+| `admin` | All customer permissions + manage users, categories, menu items, and all orders |
 
-## Authentication Endpoints
+---
 
-### Register
+## Endpoints
 
-`POST /api/v1/auth/register`
+### Auth
 
-Public.
-
-**Body**
-```json
-{
-  "name": "Mohamed",
-  "email": "mohamed@example.com",
-  "password": "password123"
-}
-```
-
-**Response**
-```json
-{
-  "status": "success",
-  "data": {
-    "user": {
-      "id": "uuid",
-      "name": "Mohamed",
-      "email": "mohamed@example.com",
-      "role": "customer"
-    },
-    "token": "jwt_token"
-  }
-}
-```
-
-### Login
-
-`POST /api/v1/auth/login`
-
-Public.
-
-**Body**
-```json
-{
-  "email": "mohamed@example.com",
-  "password": "password123"
-}
-```
-
-**Response**
-```json
-{
-  "status": "success",
-  "data": {
-    "user": {
-      "id": "uuid",
-      "name": "Mohamed",
-      "email": "mohamed@example.com",
-      "role": "customer"
-    },
-    "token": "jwt_token"
-  }
-}
-```
-
-### Get current user
-
-`GET /api/v1/auth/me`
-
-Protected.
-
-**Response**
-```json
-{
-  "status": "success",
-  "data": {
-    "user": {
-      "id": "uuid",
-      "role": "customer"
-    }
-  }
-}
-```
-
-> Note: the current implementation reads the user from the JWT payload and returns `req.user`.
-
-## Categories Endpoints
-
-### Get all categories
-
-`GET /api/v1/categories`
-
-Public.
-
-### Create category
-
-`POST /api/v1/categories`
-
-Admin only.
-
-**Body**
-```json
-{
-  "name": "Coffee",
-  "description": "Hot and cold coffee drinks"
-}
-```
-
-### Update category
-
-`PUT /api/v1/categories/:id`
-
-Admin only.
-
-**Body**
-```json
-{
-  "name": "Bakery",
-  "description": "Fresh bakery items and pastries"
-}
-```
-
-### Delete category
-
-`DELETE /api/v1/categories/:id`
-
-Admin only.
-
-## Menu Endpoints
-
-### Get all menu items
-
-`GET /api/v1/menu`
-
-Public.
-
-### Get one menu item
-
-`GET /api/v1/menu/:id`
-
-Public.
-
-### Create menu item
-
-`POST /api/v1/menu`
-
-Admin only.
-
-**Body**
-```json
-{
-  "name": "Cappuccino",
-  "description": "Espresso with steamed milk and foam",
-  "price": 3.5,
-  "type": "coffee",
-  "is_available": true,
-  "category_id": 1
-}
-```
-
-### Update menu item
-
-`PUT /api/v1/menu/:id`
-
-Admin only.
-
-> Important: the current route in the code uses `;id` instead of `:id`.  
-> That looks like a typo in the source. If you fix it in the code, the intended route becomes:
-> `PUT /api/v1/menu/:id`
-
-### Delete menu item
-
-`DELETE /api/v1/menu/:id`
-
-Admin only.
-
-> Same note as above: the current code uses `;id` in the path.
-
-## Orders Endpoints
-
-### Place an order
-
-`POST /api/v1/orders`
-
-Customer only.
-
-**Body**
-```json
-{
-  "items": [
-    {
-      "menu_item_id": 1,
-      "quantity": 2
-    },
-    {
-      "menu_item_id": 4,
-      "quantity": 1
-    }
-  ]
-}
-```
-
-The server will:
-
-- create the order
-- verify each menu item exists
-- verify each item is available
-- calculate the total
-- store order items in a transaction
-
-### Get my orders
-
-`GET /api/v1/orders/my-orders`
-
-Customer only.
-
-### Get all orders
-
-`GET /api/v1/orders`
-
-Admin only.
-
-### Update order status
-
-`PUT /api/v1/orders/:id/status`
-
-Admin only.
-
-**Body**
-```json
-{
-  "status": "preparing"
-}
-```
-
-Allowed statuses:
-
-- `pending`
-- `confirmed`
-- `preparing`
-- `ready`
-- `delivered`
-- `cancelled`
-
-## Users Endpoints
-
-### Get all users
-
-`GET /api/v1/users`
-
-Admin only.
-
-### Get user by id
-
-`GET /api/v1/users/:id`
-
-Admin only.
-
-## Validation Rules
-
-### Register / Login
-- `name`: 2–100 chars
-- `email`: valid email
-- `password`: 8–64 chars
-
-### Category
-- `name`: 3–20 chars
-- `description`: 20–100 chars
-
-### Menu item
-- `name`: 3–100 chars
-- `description`: 20–100 chars
-- `price`: number, minimum 0
-- `type`: `coffee`, `bun`, or `other`
-- `is_available`: boolean
-- `category_id`: integer
-
-### Order
-- at least 1 item
-- each `quantity` must be at least 1
-
-## Database Notes
-
-### Users
-- `id` is a UUID
-- default role is `customer`
+| Method | Route | Access | Description |
+|---|---|---|---|
+| POST | `/auth/register` | Public | Register a new account |
+| POST | `/auth/login` | Public | Login and receive a token |
+| GET | `/auth/me` | Protected | Get current authenticated user |
 
 ### Categories
-- `id` is a serial integer
-- `name` must be unique
 
-### Menu Items
-- `id` is a serial integer
-- `name` must be unique
-- belongs to one category
+| Method | Route | Access | Description |
+|---|---|---|---|
+| GET | `/categories` | Public | Get all categories |
+| POST | `/categories` | Admin | Create a category |
+| PUT | `/categories/:id` | Admin | Update a category |
+| DELETE | `/categories/:id` | Admin | Delete a category |
+
+### Menu
+
+| Method | Route | Access | Description |
+|---|---|---|---|
+| GET | `/menu` | Public | Get all menu items |
+| GET | `/menu/:id` | Public | Get a single menu item |
+| POST | `/menu` | Admin | Create a menu item |
+| PUT | `/menu/:id` | Admin | Update a menu item |
+| DELETE | `/menu/:id` | Admin | Delete a menu item |
 
 ### Orders
-- `status` defaults to `pending`
-- `total` is calculated from order items
-- `order_items` is deleted automatically when an order is deleted
 
-## Common Response Codes
+| Method | Route | Access | Description |
+|---|---|---|---|
+| POST | `/orders` | Customer | Place a new order |
+| GET | `/orders/my-orders` | Customer | Get own order history |
+| GET | `/orders` | Admin | Get all orders |
+| PUT | `/orders/:id/status` | Admin | Update order status |
 
-- `200 OK` — successful read/update/delete
-- `201 Created` — successful creation
-- `400 Bad Request` — validation or invalid id
-- `401 Unauthorized` — missing/invalid token
-- `403 Forbidden` — role not allowed
-- `404 Not Found` — resource not found
-- `409 Conflict` — duplicate email / duplicate category / duplicate menu item
+**Order status values:** `pending` → `confirmed` → `preparing` → `ready` → `delivered` / `cancelled`
 
-## Example cURL Requests
+### Users
+
+| Method | Route | Access | Description |
+|---|---|---|---|
+| GET | `/users` | Admin | Get all users |
+| GET | `/users/:id` | Admin | Get user by ID |
+
+---
+
+## Request & Response Examples
 
 ### Register
 
 ```bash
-curl -X POST http://localhost:3000/api/v1/auth/register \
+curl -X POST https://your-deployed-url.com/api/v1/auth/register \
   -H "Content-Type: application/json" \
   -d '{
-    "name":"Mohamed",
-    "email":"mohamed@example.com",
-    "password":"password123"
+    "name": "Mohamed",
+    "email": "mohamed@example.com",
+    "password": "password123"
   }'
 ```
 
-### Login
-
-```bash
-curl -X POST http://localhost:3000/api/v1/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email":"mohamed@example.com",
-    "password":"password123"
-  }'
+```json
+{
+  "status": "success",
+  "data": {
+    "user": {
+      "id": "uuid",
+      "name": "Mohamed",
+      "email": "mohamed@example.com",
+      "role": "customer"
+    },
+    "token": "jwt_token"
+  }
+}
 ```
 
-### Place an order
+### Place an Order
 
 ```bash
-curl -X POST http://localhost:3000/api/v1/orders \
+curl -X POST https://your-deployed-url.com/api/v1/orders \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_TOKEN_HERE" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
   -d '{
-    "items":[
-      {"menu_item_id":1,"quantity":2}
+    "items": [
+      { "menu_item_id": 1, "quantity": 2 },
+      { "menu_item_id": 4, "quantity": 1 }
     ]
   }'
 ```
 
-## Notes
+---
 
-- The app uses `helmet` and `cors` by default.
-- Request logging is enabled.
-- The project also includes static-file and SPA fallback support for a frontend client if a `client/` folder is present.
-- Menu update/delete routes currently contain a `;id` path segment in the source code, which should probably be corrected to `:id` for consistency.
+## Validation Rules
+
+| Field | Rule |
+|---|---|
+| `name` | 2–100 characters |
+| `email` | Valid email format |
+| `password` | 8–64 characters |
+| Category `name` | 3–20 characters |
+| Category `description` | 20–100 characters |
+| Menu item `price` | Number, minimum 0 |
+| Menu item `type` | `coffee`, `bun`, or `other` |
+| Order `items` | At least 1 item, each quantity ≥ 1 |
+
+---
+
+## HTTP Status Codes
+
+| Code | Meaning |
+|---|---|
+| `200` | Success |
+| `201` | Created |
+| `400` | Bad request / validation error |
+| `401` | Missing or invalid token |
+| `403` | Insufficient role permissions |
+| `404` | Resource not found |
+| `409` | Conflict (duplicate email, category, or menu item) |
+
+---
 
 ## License
 
