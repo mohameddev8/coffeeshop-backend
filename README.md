@@ -1,6 +1,6 @@
 # Bun & Brew — Backend API
 
-[![My Skills](https://skillicons.dev/icons?i=nodejs,typescript,express,postgres,bun)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=nodejs,typescript,express,postgres,pnpm)](https://skillicons.dev)
 
 A production-style REST API for a coffee shop and bakery ordering system.  
 Built with Node.js, TypeScript, Express 5, and PostgreSQL.
