@@ -5,11 +5,6 @@
 A production-style REST API for a coffee shop and bakery ordering system.  
 Built with Node.js, TypeScript, Express 5, and PostgreSQL.
 
-## 🔗 Live API
-
-> `https://your-deployed-url.com/api/v1`  
-> *(replace with your deployed URL)*
-
 ---
 
 ## Features
