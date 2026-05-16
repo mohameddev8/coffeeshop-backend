@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": ".",
 
     "lib": ["ESNext"],
     "target": "ESNext",
@@ -23,6 +23,6 @@
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false
   },
-  "include": ["src/**/*"],
+  "include": ["server/**/*.ts", "server.ts"],
   "exclude": ["node_modules", "dist"]
 }

@@ -1,6 +1,6 @@
-import { env } from "./server/config/env";
-import { connectDatabase } from "./server/config/database";
-import { createApp } from "./server/app";
+import { env } from "./server/config/env.js";
+import { connectDatabase } from "./server/config/database.js";
+import { createApp } from "./server/app.js";
 // Server Booting
 async function boot (): Promise<void> {
     await connectDatabase();

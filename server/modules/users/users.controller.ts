@@ -1,7 +1,7 @@
 import {type Request, type Response, type NextFunction} from "express";
 import {AppError} from "../../middlewares/errorHandler.js";
 import {getAllUsers, getUserById} from "./users.service.js";
-import {db} from "../../config/database.ts";
+
 
 export async function allUsers(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
