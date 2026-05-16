@@ -1,25 +1,11 @@
 {
   "name": "coffeeshop",
-  "module": "server.ts",
   "type": "module",
   "private": true,
   "scripts": {
     "dev": "tsx --watch server.ts",
-    "start": "node dist/server.js",
-    "build": "tsc"
-  },
-  "devDependencies": {
-    "typescript": "^6.0.3",
-    "@types/bcrypt": "^6.0.0",
-    "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.6",
-    "@types/jsonwebtoken": "^9.0.10",
-    "@types/morgan": "^1.9.10",
-    "@types/node": "^25.6.0",
-    "@types/pg": "^8.20.0",
-    "eslint": "^10.3.0",
-    "prettier": "^3.8.3",
-    "tsx": "^4.21.0"
+    "build": "tsc",
+    "start": "node dist/server.js"
   },
   "dependencies": {
     "@vinejs/vine": "^4.4.0",
@@ -31,5 +17,21 @@
     "jsonwebtoken": "^9.0.3",
     "morgan": "^1.10.1",
     "pg": "^8.20.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/morgan": "^1.9.10",
+    "@types/node": "^25.6.0",
+    "@types/pg": "^8.20.0",
+    "prettier": "^3.8.3",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.0.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["bcrypt", "esbuild"]
   }
 }
