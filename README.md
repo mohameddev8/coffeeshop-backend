@@ -5,6 +5,8 @@
 A production-style REST API for a coffee shop and bakery ordering system.  
 Built with Node.js, TypeScript, Express 5, and PostgreSQL.
 
+🚀 **Live API:** [https://bun-brew-backend-production.up.railway.app/api/v1](https://bun-brew-backend-production.up.railway.app/api/v1)
+
 ---
 
 ## Features
@@ -26,11 +28,11 @@ Built with Node.js, TypeScript, Express 5, and PostgreSQL.
 | Runtime | Node.js 18+ |
 | Language | TypeScript 5 |
 | Framework | Express 5 |
-| Database | PostgreSQL 18.3 |
+| Database | PostgreSQL |
 | Validation | VineJS |
 | Auth | JWT + bcrypt |
 | Security | Helmet, CORS |
-| Package Manager | Bun |
+| Package Manager | pnpm |
 
 ---
 
@@ -59,7 +61,7 @@ server/
 
 - Node.js 18+
 - PostgreSQL
-- Bun *(optional — npm works too)*
+- pnpm
 
 ### 1. Clone the repository
 
@@ -71,9 +73,7 @@ cd bun-brew-backend
 ### 2. Install dependencies
 
 ```bash
-bun install
-# or
-npm install
+pnpm install
 ```
 
 ### 3. Configure environment
@@ -116,11 +116,11 @@ This creates the following tables: `users`, `categories`, `menu_items`, `orders`
 
 ```bash
 # Development
-bun run dev
+pnpm dev
 
 # Production build
-bun run build
-bun run start
+pnpm build
+pnpm start
 ```
 
 ---
@@ -222,7 +222,7 @@ Authorization: Bearer <your_token>
 ### Register
 
 ```bash
-curl -X POST https://your-deployed-url.com/api/v1/auth/register \
+curl -X POST https://bun-brew-backend-production.up.railway.app/api/v1/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Mohamed",
@@ -249,7 +249,7 @@ curl -X POST https://your-deployed-url.com/api/v1/auth/register \
 ### Place an Order
 
 ```bash
-curl -X POST https://your-deployed-url.com/api/v1/orders \
+curl -X POST https://bun-brew-backend-production.up.railway.app/api/v1/orders \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -d '{
