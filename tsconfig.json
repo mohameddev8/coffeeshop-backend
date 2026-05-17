@@ -6,6 +6,8 @@
     "lib": ["ESNext"],
     "target": "ESNext",
     "module": "NodeNext",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "moduleResolution": "NodeNext",
 
     "types": ["node"],
