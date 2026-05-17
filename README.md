@@ -5,7 +5,7 @@
 A production-style REST API for a coffee shop and bakery ordering system.  
 Built with Node.js, TypeScript, Express 5, and PostgreSQL.
 
-🚀 **Live API:** [https://bun-brew-backend-production.up.railway.app/api/v1](https://bun-brew-backend-production.up.railway.app/api/v1)
+🚀 **Live API:** [https://bun-brew-backend-production.up.railway.app/api/v1](https://bun-brew-backend-production.up.railway.app//api/v1)
 
 ---
 
